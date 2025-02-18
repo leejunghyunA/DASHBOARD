@@ -43,8 +43,8 @@ if df_final is not None and company_input and user_id_input and user_name_input:
      # 데이터 가져오기
     user_grade = df_final.iloc[11, 33]  # AH12
     user_summary = df_final.iloc[15, 33]  # AH16
-    vehicle_columns = df_final.iloc[19, 39:50].tolist()
-    vehicle_data = df_final.iloc[20:29, 39:50].copy()
+    vehicle_columns = df_final.iloc[17, 39:50].tolist()
+    vehicle_data = df_final.iloc[18:29, 39:50].copy()
     vehicle_data.columns = vehicle_columns  # AN18:AX28
     route_stats = df_final.iloc[5:7, 39:45]  # AN6:AT7
     monthly_comparison = df_final.iloc[10:12, 39:45]  # AN11:AT12
