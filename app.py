@@ -28,7 +28,7 @@ def load_excel(file_path):
 df_final = load_excel(file_path)
 
 # Streamlit UI 구성
-st.title("운전자별 대시보드")
+st.title("🚗 운전자별 대시보드")
 company_input = st.text_input("운수사를 입력하세요")
 user_id_input = st.text_input("운전자 ID를 입력하세요")
 user_name_input = st.text_input("운전자 이름을 입력하세요")
@@ -45,11 +45,46 @@ if df_final is not None and company_input and user_id_input and user_name_input:
     # A2:AF42에 최종 결과 데이터 반영
     final_dashboard = df_final.iloc[1:43, 0:32]
     
-    st.subheader("대시보드 결과")
-    st.write(final_dashboard)
+    # 운전자 프로필 정보 출력
+    st.subheader(f"🚙 {user_name_input}님의 운전 성향 분석")
+    col1, col2 = st.columns([1, 3])
+    with col1:
+        st.image("https://via.placeholder.com/100", width=100)  # 기본 프로필 이미지
+        st.markdown(f"**{user_name_input}({user_id_input})**")
+        st.markdown(f"소속: **{company_input}**")
+    with col2:
+        st.markdown("### <종합 평가>")
+        st.write("✔ 연비등급: S 등급")
+        st.write("✔ 목표달성율: 116%")
+        st.write("✔ 급가속: 0.08회/100km, 급감속: 1.06회/100km")
     
-    st.subheader("세부 계산 데이터")
-    st.write(dashboard_data)
+    # 차량별 항목별 수치 테이블
+    st.subheader("🚛 차량별 항목별 수치")
+    st.dataframe(dashboard_data)
+    
+    # 노선 내 수치 비교 (바 차트 시각화)
+    st.subheader("📊 노선 내 나의 수치")
+    labels = ["달성율", "월업", "공회전", "급가속", "급감속"]
+    values = [116, 4.1, 26.9, 0.08, 1.06]
+    avg_values = [91, 2.0, 34.5, 0.18, 4.65]
+    fig, ax = plt.subplots()
+    ax.bar(labels, avg_values, label="노선 평균", alpha=0.5)
+    ax.bar(labels, values, label="내 수치")
+    ax.legend()
+    st.pyplot(fig)
+    
+    # 12월 vs 1월 비교 (바 차트 시각화)
+    st.subheader("📉 12월 vs 1월 비교")
+    prev_values = [110, 2.8, 28.5, 0.08, 1.41]
+    fig2, ax2 = plt.subplots()
+    ax2.bar(labels, prev_values, label="12월 수치", alpha=0.5)
+    ax2.bar(labels, values, label="1월 수치")
+    ax2.legend()
+    st.pyplot(fig2)
+    
+    # 등급 추이 시각화
+    st.subheader("📅 나만의 등급 달력 & 등급 추이")
+    st.markdown("11월: S (111%) → 12월: S (110%) → 1월: S (116%)")
     
 else:
     st.warning("운수사, 운전자 ID, 운전자 이름을 입력하세요.")
