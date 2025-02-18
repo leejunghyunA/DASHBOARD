@@ -83,7 +83,7 @@ if df_final is not None and company_input and user_id_input and user_name_input:
         color = "green" if val in ["S", "A"] else "blue" if val in ["C", "D"] else "red"
         return f'background-color: {color}'
     
-    st.dataframe(vehicle_data.style.applymap(highlight_grade, subset=["등급"]))   
+    st.dataframe(vehicle_data.style.applymap(highlight_grade, subset=["등급"]), hide_index=True)   
 
     st.subheader("📊 노선 내 나의 수치")
     labels = ["달성율", "웜업", "공회전", "급가속", "급감속"]
