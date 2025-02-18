@@ -34,57 +34,59 @@ user_id_input = st.text_input("운전자 ID를 입력하세요")
 user_name_input = st.text_input("운전자 이름을 입력하세요")
 
 if df_final is not None and company_input and user_id_input and user_name_input:
-    # AH6:AJ6에 입력값을 반영 (엑셀 수식을 활용한 연산)
     df_final.iloc[5, 33] = company_input  # AH6
     df_final.iloc[5, 34] = user_id_input  # AI6
     df_final.iloc[5, 35] = user_name_input  # AJ6
     
-    # AH5:BF25 범위의 데이터를 가져오기
-    dashboard_data = df_final.iloc[4:25, 33:58]
+    # 데이터 가져오기
+    user_grade = df_final.iloc[11, 33]  # AH12
+    user_summary = df_final.iloc[15, 33]  # AH16
+    vehicle_data = df_final.iloc[17:28, 39:50]  # AN18:AX28
+    route_stats = df_final.iloc[5:7, 39:45]  # AN6:AT7
+    monthly_comparison = df_final.iloc[10:12, 39:45]  # AN11:AT12
+    calendar_data = df_final.iloc[6:16, 51:57]  # AZ7:AF16
+    grade_trend = df_final.iloc[22:25, 51:57]  # AZ23:BB25
     
-    # A2:AF42에 최종 결과 데이터 반영
-    final_dashboard = df_final.iloc[1:43, 0:32]
-    
-    # 운전자 프로필 정보 출력
-    st.subheader(f"🚙 {user_name_input}님의 운전 성향 분석")
     col1, col2 = st.columns([1, 3])
     with col1:
-        st.image("https://via.placeholder.com/100", width=100)  # 기본 프로필 이미지
+        st.image("프로필.PNG", width=100)
         st.markdown(f"**{user_name_input}({user_id_input})**")
         st.markdown(f"소속: **{company_input}**")
+        st.markdown(f"### {user_grade}")
+        st.caption("이달의 등급")
     with col2:
         st.markdown("### <종합 평가>")
-        st.write("✔ 연비등급: S 등급")
-        st.write("✔ 목표달성율: 116%")
-        st.write("✔ 급가속: 0.08회/100km, 급감속: 1.06회/100km")
+        st.write(user_summary)
     
-    # 차량별 항목별 수치 테이블
     st.subheader("🚛 차량별 항목별 수치")
-    st.dataframe(dashboard_data)
+    vehicle_data.columns = ["운수사", "노선", "차량번호", "주행거리", "웜업", "공회전", "급가속", "연비", "달성율", "등급"]
+    vehicle_data = vehicle_data.dropna(how='all')
+    vehicle_data["웜업"] = vehicle_data["웜업"].apply(lambda x: f"{x:.2f}%")
+    vehicle_data["공회전"] = vehicle_data["공회전"].apply(lambda x: f"{x:.2f}%")
+    vehicle_data["급가속"] = vehicle_data["급가속"].apply(lambda x: f"{x:.2f}")
+    vehicle_data["연비"] = vehicle_data["연비"].apply(lambda x: f"{x:.2f}")
+    vehicle_data["달성율"] = vehicle_data["달성율"].apply(lambda x: f"{x:.0f}%")
+    st.dataframe(vehicle_data)
     
-    # 노선 내 수치 비교 (바 차트 시각화)
     st.subheader("📊 노선 내 나의 수치")
-    labels = ["달성율", "월업", "공회전", "급가속", "급감속"]
-    values = [116, 4.1, 26.9, 0.08, 1.06]
-    avg_values = [91, 2.0, 34.5, 0.18, 4.65]
+    labels = ["달성율", "웜업", "공회전", "급가속", "급감속"]
     fig, ax = plt.subplots()
-    ax.bar(labels, avg_values, label="노선 평균", alpha=0.5)
-    ax.bar(labels, values, label="내 수치")
+    ax.bar(labels, route_stats.iloc[0], label="노선 평균", alpha=0.5)
+    ax.bar(labels, route_stats.iloc[1], label="내 수치")
     ax.legend()
     st.pyplot(fig)
     
-    # 12월 vs 1월 비교 (바 차트 시각화)
     st.subheader("📉 12월 vs 1월 비교")
-    prev_values = [110, 2.8, 28.5, 0.08, 1.41]
     fig2, ax2 = plt.subplots()
-    ax2.bar(labels, prev_values, label="12월 수치", alpha=0.5)
-    ax2.bar(labels, values, label="1월 수치")
+    ax2.bar(labels, monthly_comparison.iloc[0], label="12월 수치", alpha=0.5)
+    ax2.bar(labels, monthly_comparison.iloc[1], label="1월 수치")
     ax2.legend()
     st.pyplot(fig2)
     
-    # 등급 추이 시각화
-    st.subheader("📅 나만의 등급 달력 & 등급 추이")
-    st.markdown("11월: S (111%) → 12월: S (110%) → 1월: S (116%)")
+    st.subheader("📅 나만의 등급 달력")
+    st.dataframe(calendar_data.dropna(how='all'))
     
+    st.subheader("📊 월별 등급 추이")
+    st.write(grade_trend)
 else:
     st.warning("운수사, 운전자 ID, 운전자 이름을 입력하세요.")
