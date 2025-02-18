@@ -4,8 +4,8 @@ import os
 import requests
 
 # 파일 다운로드 경로
-file_path = "./인천 개인별 대시보드.xlsm"
-file_url = "https://raw.githubusercontent.com/leejunghyunA/DASHBOARD/main/인천%20개인별%20대시보드.xlsm"
+file_path = "./인천 개인별 대시보드.xlsx"
+file_url = "https://raw.githubusercontent.com/leejunghyunA/DASHBOARD/main/인천%20개인별%20대시보드.xlsx"
 
 # 파일이 없거나 손상된 경우 다운로드
 if not os.path.exists(file_path) or os.path.getsize(file_path) == 0:
