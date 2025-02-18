@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import os
 import requests
+import matplotlib.pyplot as plt
+import numpy as np
 
 # 파일 다운로드 경로
 file_path = "./인천 개인별 대시보드.xlsx"
@@ -41,7 +43,7 @@ if df_final is not None and company_input and user_id_input and user_name_input:
     # 데이터 가져오기
     user_grade = df_final.iloc[11, 33]  # AH12
     user_summary = df_final.iloc[15, 33]  # AH16
-    vehicle_data = df_final.iloc[17:28, 39:50]  # AN18:AX28
+    vehicle_data = df_final.iloc[18:28, 39:50]  # AN18:AX28
     route_stats = df_final.iloc[5:7, 39:45]  # AN6:AT7
     monthly_comparison = df_final.iloc[10:12, 39:45]  # AN11:AT12
     calendar_data = df_final.iloc[6:16, 51:57]  # AZ7:AF16
@@ -62,19 +64,23 @@ if df_final is not None and company_input and user_id_input and user_name_input:
         st.write(user_summary)
     
     st.subheader("🚛 차량별 항목별 수치")
-    expected_columns = ["운수사", "노선", "차량번호", "주행거리", "웜업", "공회전", "급가속", "연비", "달성율", "등급"]
+    expected_columns = df_final.iloc[18, 39:50].tolist()
     if vehicle_data.shape[1] == len(expected_columns):
         vehicle_data.columns = expected_columns
     else:
         st.error(f"데이터 컬럼 개수가 일치하지 않습니다. (현재: {vehicle_data.shape[1]}, 예상: {len(expected_columns)})")
         st.write(vehicle_data.head())
-    vehicle_data = vehicle_data.dropna(how='all')
-    vehicle_data["웜업"] = vehicle_data["웜업"].apply(lambda x: f"{x:.2f}%")
-    vehicle_data["공회전"] = vehicle_data["공회전"].apply(lambda x: f"{x:.2f}%")
-    vehicle_data["급가속"] = vehicle_data["급가속"].apply(lambda x: f"{x:.2f}")
-    vehicle_data["연비"] = vehicle_data["연비"].apply(lambda x: f"{x:.2f}")
-    vehicle_data["달성율"] = vehicle_data["달성율"].apply(lambda x: f"{x:.0f}%")
-    st.dataframe(vehicle_data)
+    vehicle_data = vehicle_data.dropna(how='all').reset_index(drop=True)
+    vehicle_data["웜업"] = vehicle_data["웜업"].astype(float).apply(lambda x: f"{x:.2f}%")
+    vehicle_data["공회전"] = vehicle_data["공회전"].astype(float).apply(lambda x: f"{x:.2f}%")
+    vehicle_data["급가속"] = vehicle_data["급가속"].astype(float).apply(lambda x: f"{x:.2f}")
+    vehicle_data["연비"] = vehicle_data["연비"].astype(float).apply(lambda x: f"[34m{x:.2f}[0m")
+    vehicle_data["달성율"] = vehicle_data["달성율"].astype(float).apply(lambda x: f"{x:.0f}%")
+    def highlight_grade(val):
+        color = "green" if val in ["S", "A"] else "blue" if val in ["C", "D"] else "red"
+        return f'background-color: {color}'
+    
+    st.dataframe(vehicle_data.style.applymap(highlight_grade, subset=["등급"]))
     
     st.subheader("📊 노선 내 나의 수치")
     labels = ["달성율", "웜업", "공회전", "급가속", "급감속"]
