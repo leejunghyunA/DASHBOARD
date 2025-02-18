@@ -1,8 +1,20 @@
 import streamlit as st
 import pandas as pd
+import os
+import requests
 
-# 엑셀 파일 로드
-file_path = "인천 개인별 대시보드.xlsm"
+# 파일 다운로드 경로
+file_path = "./인천 개인별 대시보드.xlsm"
+file_url = "https://raw.githubusercontent.com/YOUR_GITHUB_REPO/main/인천%20개인별%20대시보드.xlsm"
+
+# 파일이 없으면 다운로드
+if not os.path.exists(file_path):
+    with st.spinner("데이터 파일 다운로드 중..."):
+        response = requests.get(file_url)
+        with open(file_path, "wb") as f:
+            f.write(response.content)
+        st.success("파일 다운로드 완료!")
+
 xls = pd.ExcelFile(file_path)
 
 def load_data():
