@@ -49,8 +49,8 @@ if df_final is not None and company_input and user_id_input and user_name_input:
     
     col1, col2 = st.columns([1, 3])
     with col1:
-        if os.path.exists("프로필.PNG"):
-            st.image("프로필.PNG", width=100)
+        if os.path.exists("프로필.png"):
+            st.image("프로필.png", width=100)
         else:
             st.image("https://via.placeholder.com/100", width=100)
         st.markdown(f"**{user_name_input}({user_id_input})**")
@@ -62,7 +62,12 @@ if df_final is not None and company_input and user_id_input and user_name_input:
         st.write(user_summary)
     
     st.subheader("🚛 차량별 항목별 수치")
-    vehicle_data.columns = ["운수사", "노선", "차량번호", "주행거리", "웜업", "공회전", "급가속", "연비", "달성율", "등급"]
+    expected_columns = ["운수사", "노선", "차량번호", "주행거리", "웜업", "공회전", "급가속", "연비", "달성율", "등급"]
+    if vehicle_data.shape[1] == len(expected_columns):
+        vehicle_data.columns = expected_columns
+    else:
+        st.error(f"데이터 컬럼 개수가 일치하지 않습니다. (현재: {vehicle_data.shape[1]}, 예상: {len(expected_columns)})")
+        st.write(vehicle_data.head())
     vehicle_data = vehicle_data.dropna(how='all')
     vehicle_data["웜업"] = vehicle_data["웜업"].apply(lambda x: f"{x:.2f}%")
     vehicle_data["공회전"] = vehicle_data["공회전"].apply(lambda x: f"{x:.2f}%")
