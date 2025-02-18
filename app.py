@@ -43,8 +43,8 @@ if df_final is not None and company_input and user_id_input and user_name_input:
      # 데이터 가져오기
     user_grade = df_final.iloc[11, 33]  # AH12
     user_summary = df_final.iloc[15, 33]  # AH16
-    vehicle_columns = df_final.iloc[18, 39:50].tolist()
-    vehicle_data = df_final.iloc[19:29, 39:50].copy()
+    vehicle_columns = df_final.iloc[19, 39:50].tolist()
+    vehicle_data = df_final.iloc[20:29, 39:50].copy()
     vehicle_data.columns = vehicle_columns  # AN18:AX28
     route_stats = df_final.iloc[5:7, 39:45]  # AN6:AT7
     monthly_comparison = df_final.iloc[10:12, 39:45]  # AN11:AT12
@@ -53,8 +53,8 @@ if df_final is not None and company_input and user_id_input and user_name_input:
     
     col1, col2 = st.columns([1, 3])
     with col1:
-        if os.path.exists("프로필.PNG"):
-            st.image("프로필.PNG", width=100)
+        if os.path.exists("프로필.png"):
+            st.image("프로필.png", width=100)
         else:
             st.image("https://via.placeholder.com/100", width=100)
         st.markdown(f"**{user_name_input}({user_id_input})**")
@@ -84,7 +84,7 @@ if df_final is not None and company_input and user_id_input and user_name_input:
         return f'background-color: {color}'
     
     st.dataframe(vehicle_data.style.applymap(highlight_grade, subset=["등급"]))   
-    
+
     st.subheader("📊 노선 내 나의 수치")
     labels = ["달성율", "웜업", "공회전", "급가속", "급감속"]
     fig, ax = plt.subplots()
