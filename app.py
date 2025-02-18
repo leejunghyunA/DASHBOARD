@@ -49,7 +49,10 @@ if df_final is not None and company_input and user_id_input and user_name_input:
     
     col1, col2 = st.columns([1, 3])
     with col1:
-        st.image("프로필.PNG", width=100)
+        if os.path.exists("프로필.PNG"):
+            st.image("프로필.PNG", width=100)
+        else:
+            st.image("https://via.placeholder.com/100", width=100)
         st.markdown(f"**{user_name_input}({user_id_input})**")
         st.markdown(f"소속: **{company_input}**")
         st.markdown(f"### {user_grade}")
