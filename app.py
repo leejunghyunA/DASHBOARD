@@ -83,7 +83,7 @@ if df_final is not None and company_input and user_id_input and user_name_input:
     vehicle_data["달성율"] = vehicle_data["달성율"].astype(float).apply(lambda x: f"{x * 100:.0f}%")
     def highlight_grade(val):
         color = "green" if val in ["S", "A"] else "blue" if val in ["C", "D"] else "red"
-        return f'color: {color}'
+        return f'color: {color}; font-weight: bold'
     
     def apply_grade_styling(df):
         return df.style.applymap(highlight_grade, subset=[col for col in df.columns if "등급" in col])
