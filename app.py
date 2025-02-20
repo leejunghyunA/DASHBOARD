@@ -66,7 +66,12 @@ if df_final is not None and company_input and user_id_input and user_name_input:
         st.write(user_summary)
     
     st.subheader("🚛 차량별 항목별 수치")
-
+    expected_columns = ["운수사", "노선", "차량번호", "주행거리", "웜업", "공회전", "급가속", "연비", "달성율", "등급"]
+    
+    if set(vehicle_data.columns.tolist()) == set(expected_columns):
+        vehicle_data.columns = expected_columns
+    else:
+        st.error(f"데이터 컬럼 개수가 일치하지 않습니다. (현재: {vehicle_data.shape[1]}, 예상: {len(expected_columns)})")
         
     vehicle_data = vehicle_data.dropna(how='all').reset_index(drop=True)
     vehicle_data["주행거리"] = vehicle_data["주행거리"].astype(float).apply(lambda x: f"{x:.0f}%")
@@ -78,10 +83,13 @@ if df_final is not None and company_input and user_id_input and user_name_input:
     vehicle_data["달성율"] = vehicle_data["달성율"].astype(float).apply(lambda x: f"{x * 100:.0f}%")
     def highlight_grade(val):
         color = "green" if val in ["S", "A"] else "blue" if val in ["C", "D"] else "red"
-        return f'background-color: {color}'
+        return f'color: {color}'
     
-    st.dataframe(vehicle_data.style.applymap(highlight_grade, subset=["등급"]), hide_index=True)   
-
+    def apply_grade_styling(df):
+        return df.style.applymap(highlight_grade, subset=[col for col in df.columns if "등급" in col])
+    
+    st.dataframe(vehicle_data.style.applymap(highlight_grade, subset=["등급"]), hide_index=True)
+    
     st.subheader("📊 노선 내 나의 수치")
     labels = ["달성율", "웜업", "공회전", "급가속", "급감속"]
     fig, ax = plt.subplots()
