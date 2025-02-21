@@ -48,6 +48,7 @@ if df_final is not None and company_input and user_id_input and user_name_input:
     df_final.iloc[5, 35] = user_name_input  # AJ6
     
      # 데이터 가져오기
+    final_code = company_input&user_id_input&user_name_input
     user_grade = df_final.iloc[11, 33]  # AH12
     user_summary = df_final.iloc[15, 33]  # AH16
     vehicle_columns = df_final.iloc[17, 39:50].tolist()
@@ -103,11 +104,11 @@ if df_final is not None and company_input and user_id_input and user_name_input:
     st.subheader("📊 노선 내 나의 수치")
 
     # g1 폴더 내 AK6 이름의 PNG 파일 경로
-    image_path = os.path.join("g1", f"{user_name_input}.png")
+    image_path = os.path.join("g1", f"{final_code}.png")
 
     # 이미지 불러오기
     if os.path.exists(image_path):
-        st.image(image_path, caption=f"{user_name_input}님의 노선 내 수치", use_column_width=True)
+        st.image(image_path, caption=f"{final_code}님의 노선 내 수치", use_column_width=True)
     else:
         st.warning(f"이미지 파일을 찾을 수 없습니다: {image_path}")
 
@@ -115,11 +116,11 @@ if df_final is not None and company_input and user_id_input and user_name_input:
     st.subheader("📉 12월 vs 1월 비교")
 
     # g2 폴더 내 AK6 이름의 PNG 파일 경로
-    image_path = os.path.join("g2", f"{user_name_input}.png")
+    image_path = os.path.join("g2", f"{final_code}.png")
 
     # 이미지 불러오기
     if os.path.exists(image_path):
-        st.image(image_path, caption=f"{user_name_input}님의 전월대비 수치 비교", use_column_width=True)
+        st.image(image_path, caption=f"{final_code}님의 전월대비 수치 비교", use_column_width=True)
     else:
         st.warning(f"이미지 파일을 찾을 수 없습니다: {image_path}")
 
