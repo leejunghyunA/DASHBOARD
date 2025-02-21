@@ -42,10 +42,12 @@ company_input = st.text_input("운수사를 입력하세요")
 user_id_input = st.text_input("운전자 ID를 입력하세요")
 user_name_input = st.text_input("운전자 이름을 입력하세요")
 
-if df_final is not None and company_input and user_id_input and user_name_input:
-    df_final.iloc[5, 33] = company_input  # AH6
-    df_final.iloc[5, 34] = user_id_input  # AI6
-    df_final.iloc[5, 35] = user_name_input  # AJ6
+if st.button("조회하기"):
+    if df_final is not None and company_input and user_id_input and user_name_input:
+        df_final.iloc[5, 33] = company_input  # AH6
+        df_final.iloc[5, 34] = user_id_input  # AI6
+        df_final.iloc[5, 35] = user_name_input  # AJ6
+
     
      # 데이터 가져오기
     final_code = df_final.iloc[5, 36] #AK6
@@ -68,13 +70,23 @@ if df_final is not None and company_input and user_id_input and user_name_input:
             st.image("프로필.png", width=100)
         else:
             st.image("https://via.placeholder.com/100", width=100)
+
+        st.markdown(f"<div style='text-align: center;'>
+                <b>{user_name_input}({user_id_input})</b><br>
+                소속: <b>{company_input}</b><br>
+                등급: <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'}; font-weight: bold;'>{user_grade}</span><br>
+                <small>이달의 등급</small>
+                </div>", unsafe_allow_html=True)    
+        
         st.markdown(f"**{user_name_input}({user_id_input})**")
         st.markdown(f"소속: **{company_input}**")
         st.markdown(f"### {user_grade}")
         st.caption("이달의 등급")
+        
     with col2:
-        st.markdown("### <종합 평가>")
-        st.write(user_summary)
+        st.markdown("<hr style='border:1px solid #ddd'>", unsafe_allow_html=True)
+        st.markdown("### <📝종합 평가>")
+        st.markdown(f"<p style='font-size: 18px;'>{user_summary}</p>", unsafe_allow_html=True)
     
     st.subheader("🚛 차량별 항목별 수치")
     expected_columns = ["운수사", "노선", "차량번호", "주행거리", "웜업", "공회전", "급가속", "연비", "달성율", "등급"]
