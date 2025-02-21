@@ -3,6 +3,11 @@ import pandas as pd
 import os
 import requests
 import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
+
+# 한글 폰트 설정
+plt.rc('font', family='Malgun Gothic')  # Windows의 경우
+plt.rc('axes', unicode_minus=False)
 import numpy as np
 
 # 파일 다운로드 경로
