@@ -107,33 +107,17 @@ if df_final is not None and company_input and user_id_input and user_name_input:
     route_stats["달성율"] = route_stats["달성율"].astype(float).apply(lambda x: f"{x * 100:.0f}%")
 
     labels = ["달성율", "웜업", "공회전", "급가속", "급감속"]
-    fig, ax = plt.subplots(figsize=(12, 6))
-
+    
     route_stats = route_stats.apply(pd.to_numeric, errors='coerce').fillna(0)
-    bar_width = 0.35
-    index = np.arange(len(labels))
 
-    bars1 = ax.bar(index - bar_width/2, route_stats.iloc[0], bar_width, label='노선 평균', color='lightgray')
-    bars2 = ax.bar(index + bar_width/2, route_stats.iloc[1], bar_width, label='내 수치', color='steelblue')
-
-    ax.set_xticks(index)
-    ax.set_xticklabels(labels)
-    ax.legend()
-
-    # 데이터 라벨 추가
-    for bar in bars1:
-        height = bar.get_height()
-        ax.annotate(f'{height:.1f}', xy=(bar.get_x() + bar.get_width() / 2, height),
-                    xytext=(0, 3), textcoords="offset points", ha='center', fontsize=10)
-
-    for bar in bars2:
-        height = bar.get_height()
-        ax.annotate(f'{height:.1f}', xy=(bar.get_x() + bar.get_width() / 2, height),
-                    xytext=(0, 3), textcoords="offset points", ha='center', fontsize=10)
-
-    ax.set_ylabel('비율 (%)')
-    ax.set_title('노선 내 나의 수치 비교')
-    st.pyplot(fig)
+    for i, label in enumerate(labels):
+        fig, ax = plt.subplots(figsize=(10, 3))
+        ax.bar(['노선 평균', '내 수치'], [route_stats.iloc[0, i], route_stats.iloc[1, i]], color=['lightgray', 'steelblue'])
+        ax.set_title(f'{label} 비교')
+        ax.set_ylabel('값')
+        for index, value in enumerate([route_stats.iloc[0, i], route_stats.iloc[1, i]]):
+            ax.text(index, value, f'{value:.1f}', ha='center', va='bottom')
+        st.pyplot(fig)
     fig, ax = plt.subplots()
     route_stats = route_stats.apply(pd.to_numeric, errors='coerce').fillna(0)
     ax.bar(labels, route_stats.iloc[0], label="노선 평균", alpha=0.5)
