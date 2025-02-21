@@ -67,14 +67,14 @@ if st.button("조회하기"):
     st.markdown("<hr style='border:3px solid yellow'>", unsafe_allow_html=True)
 
     col1, col2 = st.columns([1, 3])
-    st.markdown("""
-    <div style='display: flex; align-items: center;'>
-        <div style='flex: 1; padding-right: 10px;'>
-            <hr style='border: none; border-right: 1px dashed #ccc; height: 100%;'>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    st.markdown("<hr style='border:1px dashed #ccc'>", unsafe_allow_html=True)
+    #st.markdown("""
+    #<div style='display: flex; align-items: center;'>
+    #    <div style='flex: 1; padding-right: 10px;'>
+    #        <hr style='border: none; border-right: 1px dashed #ccc; height: 100%;'>
+    #    </div>
+    #</div>
+    #""", unsafe_allow_html=True)
+    #st.markdown("<hr style='border:1px dashed #ccc'>", unsafe_allow_html=True)
 
     with col1:
         if os.path.exists("프로필.png"):
@@ -86,7 +86,7 @@ if st.button("조회하기"):
         <div style='text-align: center;'>
             <b>{user_name_input}({user_id_input})</b><br>
             소속: <b>{company_input}</b><br>
-            <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'}; font-size: 30px; font-weight: bold;'>{user_grade}</span><br>
+            <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'}; font-size: 45px; font-weight: bold;'>{user_grade}</span><br>
             <small>이달의 등급</small>
         </div>""", unsafe_allow_html=True)    
         
