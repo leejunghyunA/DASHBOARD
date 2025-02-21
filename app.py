@@ -74,6 +74,7 @@ if st.button("조회하기"):
         </div>
     </div>
     """, unsafe_allow_html=True)
+    st.markdown("<hr style='border:1px dashed #ccc'>", unsafe_allow_html=True)
 
 
     with col1:
