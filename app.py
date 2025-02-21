@@ -71,17 +71,14 @@ if st.button("조회하기"):
         else:
             st.image("https://via.placeholder.com/100", width=100)
 
-        st.markdown(f"<div style='text-align: center;'>
-                <b>{user_name_input}({user_id_input})</b><br>
-                소속: <b>{company_input}</b><br>
-                등급: <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'}; font-weight: bold;'>{user_grade}</span><br>
-                <small>이달의 등급</small>
-                </div>", unsafe_allow_html=True)    
-        
-        st.markdown(f"**{user_name_input}({user_id_input})**")
-        st.markdown(f"소속: **{company_input}**")
-        st.markdown(f"### {user_grade}")
-        st.caption("이달의 등급")
+        st.markdown(f"""
+                    <div style='text-align: center;'>
+                    <b>{user_name_input}({user_id_input})</b><br>
+                    소속: <b>{company_input}</b><br>
+                    등급: <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'}; font-weight: bold;'>{user_grade}</span><br>
+                    <small>이달의 등급</small>
+                    </div>
+                    """, unsafe_allow_html=True)    
         
     with col2:
         st.markdown("<hr style='border:1px solid #ddd'>", unsafe_allow_html=True)
