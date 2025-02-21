@@ -64,7 +64,7 @@ if st.button("조회하기"):
     calendar_data = df_final.iloc[6:16, 51:57]  # AZ7:AF16
     grade_trend = df_final.iloc[22:25, 51:57]  # AZ23:BB25
     
-    st.markdown("<hr style='border:2px solid #ddd'>", unsafe_allow_html=True)
+    st.markdown("<hr style='border:5px solid yellow'>", unsafe_allow_html=True)
 
     col1, col2 = st.columns([1, 3])
     with col1:
@@ -77,7 +77,7 @@ if st.button("조회하기"):
                     <div style='text-align: center;'>
                     <b>{user_name_input}({user_id_input})</b><br>
                     소속: <b>{company_input}</b><br>
-                    <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'}; font-weight: bold;'>{user_grade}</span><br>
+                    <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'}; font-size: 24px; font-weight: bold;'>{user_grade}</span><br>
                     <small>이달의 등급</small>
                     </div>
                     """, unsafe_allow_html=True)    
