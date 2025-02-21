@@ -67,58 +67,54 @@ if st.button("조회하기"):
     st.markdown("<hr style='border:3px solid yellow'>", unsafe_allow_html=True)
 
     col1, col2 = st.columns([1, 3])
-    st.markdown("""
-    <div style='display: flex; align-items: center;'>
-        <div style='flex: 1; padding-right: 10px;'>
-            <hr style='border: none; border-right: 1px dashed #ccc; height: 100%;'>
-        </div>
+st.markdown("""
+<div style='display: flex; align-items: center;'>
+    <div style='flex: 1; padding-right: 10px;'>
+        <hr style='border: none; border-right: 1px dashed #ccc; height: 100%;'>
     </div>
-    """, unsafe_allow_html=True)
-    st.markdown("<hr style='border:1px dashed #ccc'>", unsafe_allow_html=True)
+</div>
+""", unsafe_allow_html=True)
+st.markdown("<hr style='border:1px dashed #ccc'>", unsafe_allow_html=True)
+        with col1:
+            if os.path.exists("프로필.png"):
+                st.image("프로필.png", width=150)
+            else:
+                st.image("https://via.placeholder.com/150", width=150)
 
-
-    with col1:
-        if os.path.exists("프로필.png"):
-            st.image("프로필.png", width=150)
-        else:
-            st.image("https://via.placeholder.com/150", width=150)
-
-        st.markdown(f"""
-                    <div style='text-align: center;'>
-                    <b>{user_name_input}({user_id_input})</b><br>
-                    소속: <b>{company_input}</b><br>
-                    <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'}; font-size: 30px; font-weight: bold;'>{user_grade}</span><br>
-                    <small>이달의 등급</small>
-                    </div>
-                    """, unsafe_allow_html=True)    
+            st.markdown(f"<div style='text-align: center;'>
+                <b>{user_name_input}({user_id_input})</b><br>
+                소속: <b>{company_input}</b><br>
+                <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'}; font-size: 30px; font-weight: bold;'>{user_grade}</span><br>
+                <small>이달의 등급</small>
+                </div>""", unsafe_allow_html=True)    
         
-    with col2:
-        st.markdown("### <📝종합 평가>")
-        st.markdown(f"<p style='font-size: 18px;'>{user_summary}</p>", unsafe_allow_html=True)
+        with col2:
+            st.markdown("### <📝종합 평가>")
+            st.markdown(f"<p style='font-size: 18px;'>{user_summary}</p>", unsafe_allow_html=True)
     
-    st.markdown("<hr style='border:1px solid #ddd'>", unsafe_allow_html=True)
-    st.subheader("🚛 차량별 항목별 수치")
-    expected_columns = ["운수사", "노선", "차량번호", "주행거리", "웜업", "공회전", "급가속", "연비", "달성율", "등급"]
+        st.markdown("<hr style='border:1px solid #ddd'>", unsafe_allow_html=True)
+        st.subheader("🚛 차량별 항목별 수치")
+        expected_columns = ["운수사", "노선", "차량번호", "주행거리", "웜업", "공회전", "급가속", "연비", "달성율", "등급"]
     
     #if set(vehicle_data.columns.tolist()) == set(expected_columns):
     #    vehicle_data.columns = expected_columns
     #else:
     #    st.error(f"데이터 컬럼 개수가 일치하지 않습니다. (현재: {vehicle_data.shape[1]}, 예상: {len(expected_columns)})")
         
-    vehicle_data = vehicle_data.dropna(how='all').reset_index(drop=True)
-    vehicle_data["주행거리"] = vehicle_data["주행거리"].astype(float).apply(lambda x: f"{x:,.0f}")
-    vehicle_data["웜업"] = vehicle_data["웜업"].astype(float).apply(lambda x: f"{x:.2f}%")
-    vehicle_data["공회전"] = vehicle_data["공회전"].astype(float).apply(lambda x: f"{x:.2f}%")
-    vehicle_data["급가속"] = vehicle_data["급가속"].astype(float).apply(lambda x: f"{x:.2f}")
-    vehicle_data["급감속"] = vehicle_data["급감속"].astype(float).apply(lambda x: f"{x:.2f}")
-    vehicle_data["연비"] = vehicle_data["연비"].astype(float).apply(lambda x: f"{x:.2f}")
-    vehicle_data["달성율"] = vehicle_data["달성율"].astype(float).apply(lambda x: f"{x * 100:.0f}%")
+        vehicle_data = vehicle_data.dropna(how='all').reset_index(drop=True)
+        vehicle_data["주행거리"] = vehicle_data["주행거리"].astype(float).apply(lambda x: f"{x:,.0f}")
+        vehicle_data["웜업"] = vehicle_data["웜업"].astype(float).apply(lambda x: f"{x:.2f}%")
+        vehicle_data["공회전"] = vehicle_data["공회전"].astype(float).apply(lambda x: f"{x:.2f}%")
+        vehicle_data["급가속"] = vehicle_data["급가속"].astype(float).apply(lambda x: f"{x:.2f}")
+        vehicle_data["급감속"] = vehicle_data["급감속"].astype(float).apply(lambda x: f"{x:.2f}")
+        vehicle_data["연비"] = vehicle_data["연비"].astype(float).apply(lambda x: f"{x:.2f}")
+        vehicle_data["달성율"] = vehicle_data["달성율"].astype(float).apply(lambda x: f"{x * 100:.0f}%")
 
-    def highlight_grade(val):
-        color = "green" if val in ["S", "A"] else "blue" if val in ["C", "D"] else "red"
-        return f'color: {color}; font-weight: bold'
+        def highlight_grade(val):
+            color = "green" if val in ["S", "A"] else "blue" if val in ["C", "D"] else "red"
+            return f'color: {color}; font-weight: bold'
     
-    st.dataframe(vehicle_data.style.applymap(highlight_grade, subset=["등급"])\
+        st.dataframe(vehicle_data.style.applymap(highlight_grade, subset=["등급"])\
     .set_table_styles([
         {'selector': 'th', 'props': [('font-weight', 'bold'), ('text-align', 'center')]},
         {'selector': 'td', 'props': [('text-align', 'center')]}
@@ -129,52 +125,52 @@ if st.button("조회하기"):
     
     #st.dataframe(vehicle_data.style.applymap(highlight_grade, subset=["등급"]), hide_index=True)
     
-    st.subheader("📊 노선 내 나의 수치")
+        st.subheader("📊 노선 내 나의 수치")
 
-    # g1 폴더 내 AK6 이름의 PNG 파일 경로
-    image_path = os.path.join("g1", f"{final_code}.png")
+        # g1 폴더 내 AK6 이름의 PNG 파일 경로
+        image_path = os.path.join("g1", f"{final_code}.png")
 
-    # 이미지 불러오기
-    if os.path.exists(image_path):
-        st.image(image_path, caption=f"{user_name_input}({user_id_input})님의 노선 내 수치", use_container_width=True)
+        # 이미지 불러오기
+        if os.path.exists(image_path):
+            st.image(image_path, caption=f"{user_name_input}({user_id_input})님의 노선 내 수치", use_container_width=True)
+        else:
+            st.warning(f"이미지 파일을 찾을 수 없습니다: {image_path}")
+
+    
+        st.subheader("📉 12월 vs 1월 비교")
+
+        # g2 폴더 내 AK6 이름의 PNG 파일 경로
+        image_path = os.path.join("g2", f"{final_code}.png")
+
+        # 이미지 불러오기
+        if os.path.exists(image_path):
+            st.image(image_path, caption=f"{user_name_input}({user_id_input})님의 전월대비 수치 비교", use_container_width=True)
+        else:
+            st.warning(f"이미지 파일을 찾을 수 없습니다: {image_path}")
+
+
+    
+        st.subheader("📅 나만의 등급 달력")
+        # g3 폴더 내 AK6 이름의 PNG 파일 경로
+        image_path = os.path.join("g3", f"{final_code}.png")
+
+        # 이미지 불러오기
+        if os.path.exists(image_path):
+            st.image(image_path, caption=f"{user_name_input}({user_id_input})님의 이번달 등급 달력", use_container_width=True)
+        else:
+            st.warning(f"이미지 파일을 찾을 수 없습니다: {image_path}")
+    
+    
+        st.subheader("📊 월별 등급 추이")
+        # g4 폴더 내 AK6 이름의 PNG 파일 경로
+        image_path = os.path.join("g4", f"{final_code}.png")
+
+        # 이미지 불러오기
+        if os.path.exists(image_path):
+            st.image(image_path, caption=f"{user_name_input}({user_id_input})님의 월별 등급 변화", use_container_width=True)
+        else:
+            st.warning(f"이미지 파일을 찾을 수 없습니다: {image_path}")
+    
+
     else:
-        st.warning(f"이미지 파일을 찾을 수 없습니다: {image_path}")
-
-    
-    st.subheader("📉 12월 vs 1월 비교")
-
-    # g2 폴더 내 AK6 이름의 PNG 파일 경로
-    image_path = os.path.join("g2", f"{final_code}.png")
-
-    # 이미지 불러오기
-    if os.path.exists(image_path):
-        st.image(image_path, caption=f"{user_name_input}({user_id_input})님의 전월대비 수치 비교", use_container_width=True)
-    else:
-        st.warning(f"이미지 파일을 찾을 수 없습니다: {image_path}")
-
-
-    
-    st.subheader("📅 나만의 등급 달력")
-    # g3 폴더 내 AK6 이름의 PNG 파일 경로
-    image_path = os.path.join("g3", f"{final_code}.png")
-
-    # 이미지 불러오기
-    if os.path.exists(image_path):
-        st.image(image_path, caption=f"{user_name_input}({user_id_input})님의 이번달 등급 달력", use_container_width=True)
-    else:
-        st.warning(f"이미지 파일을 찾을 수 없습니다: {image_path}")
-    
-    
-    st.subheader("📊 월별 등급 추이")
-    # g4 폴더 내 AK6 이름의 PNG 파일 경로
-    image_path = os.path.join("g4", f"{final_code}.png")
-
-    # 이미지 불러오기
-    if os.path.exists(image_path):
-        st.image(image_path, caption=f"{user_name_input}({user_id_input})님의 월별 등급 변화", use_container_width=True)
-    else:
-        st.warning(f"이미지 파일을 찾을 수 없습니다: {image_path}")
-    
-
-else:
-    st.warning("운수사, 운전자 ID, 운전자 이름을 입력하세요.")
+        st.warning("운수사, 운전자 ID, 운전자 이름을 입력하세요.")
