@@ -82,12 +82,13 @@ if st.button("조회하기"):
         else:
             st.image("https://via.placeholder.com/150", width=150)
 
-        st.markdown(f"<div style='text-align: center;'>
+        st.markdown(f"""
+        <div style='text-align: center;'>
             <b>{user_name_input}({user_id_input})</b><br>
             소속: <b>{company_input}</b><br>
             <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'}; font-size: 30px; font-weight: bold;'>{user_grade}</span><br>
             <small>이달의 등급</small>
-            </div>""", unsafe_allow_html=True)    
+        </div>""", unsafe_allow_html=True)    
         
     with col2:
         st.markdown("### <📝종합 평가>")
