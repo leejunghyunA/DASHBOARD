@@ -52,7 +52,7 @@ if st.button("조회하기"):
      # 데이터 가져오기
     final_code = df_final.iloc[5, 36] #AK6
     user_grade = df_final.iloc[11, 33]  # AH12
-    user_summary = df_final.iloc[5, 5]  # AH16,E6
+    user_summary = df_final.iloc[5, 4]  # AH16,E6
     vehicle_columns = df_final.iloc[17, 39:50].tolist()
     vehicle_data = df_final.iloc[18:28, 39:50].copy()
     vehicle_data.columns = vehicle_columns  # AN18:AX28
