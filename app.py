@@ -46,7 +46,7 @@ if df_final is not None and company_input and user_id_input and user_name_input:
     vehicle_columns = df_final.iloc[17, 39:50].tolist()
     vehicle_data = df_final.iloc[18:28, 39:50].copy()
     vehicle_data.columns = vehicle_columns  # AN18:AX28
-    route_stats = pd.concat([df_final.iloc[5:7, 39:42], df_final.iloc[5:7, 43:45]], axis=1)  # AN6:AT7
+    route_stats = pd.concat([df_final.iloc[5:7, 39:41], df_final.iloc[5:7, 42:46]], axis=1)  # AN6:AT7
     monthly_comparison = df_final.iloc[10:12, 39:45]  # AN11:AT12
     calendar_data = df_final.iloc[6:16, 51:57]  # AZ7:AF16
     grade_trend = df_final.iloc[22:25, 51:57]  # AZ23:BB25
@@ -68,10 +68,10 @@ if df_final is not None and company_input and user_id_input and user_name_input:
     st.subheader("🚛 차량별 항목별 수치")
     expected_columns = ["운수사", "노선", "차량번호", "주행거리", "웜업", "공회전", "급가속", "연비", "달성율", "등급"]
     
-    if set(vehicle_data.columns.tolist()) == set(expected_columns):
-        vehicle_data.columns = expected_columns
-    else:
-        st.error(f"데이터 컬럼 개수가 일치하지 않습니다. (현재: {vehicle_data.shape[1]}, 예상: {len(expected_columns)})")
+    #if set(vehicle_data.columns.tolist()) == set(expected_columns):
+    #    vehicle_data.columns = expected_columns
+    #else:
+    #    st.error(f"데이터 컬럼 개수가 일치하지 않습니다. (현재: {vehicle_data.shape[1]}, 예상: {len(expected_columns)})")
         
     vehicle_data = vehicle_data.dropna(how='all').reset_index(drop=True)
     vehicle_data["주행거리"] = vehicle_data["주행거리"].astype(float).apply(lambda x: f"{x:,.0f}")
