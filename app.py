@@ -99,6 +99,14 @@ if df_final is not None and company_input and user_id_input and user_name_input:
     st.dataframe(vehicle_data.style.applymap(highlight_grade, subset=["등급"]), hide_index=True)
     
     st.subheader("📊 노선 내 나의 수치")
+
+    route_stats["웜업"] = route_stats["웜업"].astype(float).apply(lambda x: f"{x:.2f}%")
+    route_stats["공회전"] = route_stats["공회전"].astype(float).apply(lambda x: f"{x:.2f}%")
+    route_stats["급가속"] = route_stats["급가속"].astype(float).apply(lambda x: f"{x:.2f}")
+    route_stats["급감속"] = route_stats["급감속"].astype(float).apply(lambda x: f"{x:.2f}")
+    route_stats["연비"] = route_stats["연비"].astype(float).apply(lambda x: f"{x:.2f}")
+    route_stats["달성율"] = route_stats["달성율"].astype(float).apply(lambda x: f"{x * 100:.0f}%")
+
     labels = ["달성율", "웜업", "공회전", "급가속", "급감속"]
     fig, ax = plt.subplots()
     ax.bar(labels, route_stats.iloc[0], label="노선 평균", alpha=0.5)
