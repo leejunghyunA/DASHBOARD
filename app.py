@@ -67,7 +67,14 @@ if st.button("조회하기"):
     st.markdown("<hr style='border:3px solid yellow'>", unsafe_allow_html=True)
 
     col1, col2 = st.columns([1, 3])
-    st.markdown("<hr style='border:1px dashed #ccc'>", unsafe_allow_html=True)  
+    st.markdown("""
+    <div style='display: flex; align-items: center;'>
+        <div style='flex: 1; padding-right: 10px;'>
+            <hr style='border: none; border-right: 1px dashed #ccc; height: 100%;'>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
 
     with col1:
         if os.path.exists("프로필.png"):
