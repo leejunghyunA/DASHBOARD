@@ -48,7 +48,7 @@ if df_final is not None and company_input and user_id_input and user_name_input:
     df_final.iloc[5, 35] = user_name_input  # AJ6
     
      # 데이터 가져오기
-    final_code = company_input&user_id_input&user_name_input
+    final_code = df_final.iloc[5, 36] #AK6
     user_grade = df_final.iloc[11, 33]  # AH12
     user_summary = df_final.iloc[15, 33]  # AH16
     vehicle_columns = df_final.iloc[17, 39:50].tolist()
