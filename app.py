@@ -108,7 +108,7 @@ if df_final is not None and company_input and user_id_input and user_name_input:
 
     # 이미지 불러오기
     if os.path.exists(image_path):
-        st.image(image_path, caption=f"{final_code}님의 노선 내 수치", use_column_width=True)
+        st.image(image_path, caption=f"{user_name_input}({user_id_input})님의 노선 내 수치", use_container_width=True)
     else:
         st.warning(f"이미지 파일을 찾을 수 없습니다: {image_path}")
 
@@ -120,16 +120,33 @@ if df_final is not None and company_input and user_id_input and user_name_input:
 
     # 이미지 불러오기
     if os.path.exists(image_path):
-        st.image(image_path, caption=f"{final_code}님의 전월대비 수치 비교", use_column_width=True)
+        st.image(image_path, caption=f"{user_name_input}({user_id_input})님의 전월대비 수치 비교", use_container_width=True)
     else:
         st.warning(f"이미지 파일을 찾을 수 없습니다: {image_path}")
 
 
     
     st.subheader("📅 나만의 등급 달력")
-    st.dataframe(calendar_data.dropna(how='all'))
+    # g3 폴더 내 AK6 이름의 PNG 파일 경로
+    image_path = os.path.join("g3", f"{final_code}.png")
+
+    # 이미지 불러오기
+    if os.path.exists(image_path):
+        st.image(image_path, caption=f"{user_name_input}({user_id_input})님의 이번달 등급 달력", use_container_width=True)
+    else:
+        st.warning(f"이미지 파일을 찾을 수 없습니다: {image_path}")
+    
     
     st.subheader("📊 월별 등급 추이")
-    st.write(grade_trend)
+    # g4 폴더 내 AK6 이름의 PNG 파일 경로
+    image_path = os.path.join("g4", f"{final_code}.png")
+
+    # 이미지 불러오기
+    if os.path.exists(image_path):
+        st.image(image_path, caption=f"{user_name_input}({user_id_input})님의 월별 등급 변화", use_container_width=True)
+    else:
+        st.warning(f"이미지 파일을 찾을 수 없습니다: {image_path}")
+    
+
 else:
     st.warning("운수사, 운전자 ID, 운전자 이름을 입력하세요.")
