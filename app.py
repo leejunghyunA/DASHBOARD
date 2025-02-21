@@ -102,45 +102,28 @@ if df_final is not None and company_input and user_id_input and user_name_input:
     
     st.subheader("📊 노선 내 나의 수치")
 
-    # 이미지 저장 경로
-    image_path = f"{user_name_input}_dashboard.png"
-
-    # 엑셀에서 특정 범위를 이미지로 저장하는 함수
-    import openpyxl
-    from openpyxl.drawing.image import Image
-
-    def save_excel_range_as_image(file_path, sheet_name, cell_range, output_path):
-        wb = openpyxl.load_workbook(file_path)
-        sheet = wb[sheet_name]
-
-        # 범위의 데이터를 리스트로 추출
-        data = []
-        for row in sheet[cell_range]:
-            data.append([cell.value for cell in row])
-
-        # 이미지로 저장
-        fig, ax = plt.subplots(figsize=(12, 8))
-        ax.axis('off')
-        table = ax.table(cellText=data, loc='center', cellLoc='center')
-        table.auto_set_font_size(False)
-        table.set_fontsize(10)
-        plt.savefig(output_path, dpi=300)
-        plt.close()
-
-    # 이미지 생성
-    save_excel_range_as_image(file_path, "최종(개인별)", "C19:X28", image_path)
+    # g1 폴더 내 AK6 이름의 PNG 파일 경로
+    image_path = os.path.join("g1", f"{user_name_input}.png")
 
     # 이미지 불러오기
     if os.path.exists(image_path):
         st.image(image_path, caption=f"{user_name_input}님의 노선 내 수치", use_column_width=True)
+    else:
+        st.warning(f"이미지 파일을 찾을 수 없습니다: {image_path}")
 
     
     st.subheader("📉 12월 vs 1월 비교")
-    fig2, ax2 = plt.subplots()
-    ax2.bar(labels, monthly_comparison.iloc[0], label="12월 수치", alpha=0.5)
-    ax2.bar(labels, monthly_comparison.iloc[1], label="1월 수치")
-    ax2.legend()
-    st.pyplot(fig2)
+
+    # g2 폴더 내 AK6 이름의 PNG 파일 경로
+    image_path = os.path.join("g2", f"{user_name_input}.png")
+
+    # 이미지 불러오기
+    if os.path.exists(image_path):
+        st.image(image_path, caption=f"{user_name_input}님의 전월대비 수치 비교", use_column_width=True)
+    else:
+        st.warning(f"이미지 파일을 찾을 수 없습니다: {image_path}")
+
+
     
     st.subheader("📅 나만의 등급 달력")
     st.dataframe(calendar_data.dropna(how='all'))
