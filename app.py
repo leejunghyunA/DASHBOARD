@@ -64,27 +64,29 @@ if st.button("조회하기"):
     calendar_data = df_final.iloc[6:16, 51:57]  # AZ7:AF16
     grade_trend = df_final.iloc[22:25, 51:57]  # AZ23:BB25
     
+    st.markdown("<hr style='border:2px solid #ddd'>", unsafe_allow_html=True)
+
     col1, col2 = st.columns([1, 3])
     with col1:
         if os.path.exists("프로필.png"):
-            st.image("프로필.png", width=100)
+            st.image("프로필.png", width=150)
         else:
-            st.image("https://via.placeholder.com/100", width=100)
+            st.image("https://via.placeholder.com/150", width=150)
 
         st.markdown(f"""
                     <div style='text-align: center;'>
                     <b>{user_name_input}({user_id_input})</b><br>
                     소속: <b>{company_input}</b><br>
-                    등급: <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'}; font-weight: bold;'>{user_grade}</span><br>
+                    <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'}; font-weight: bold;'>{user_grade}</span><br>
                     <small>이달의 등급</small>
                     </div>
                     """, unsafe_allow_html=True)    
         
     with col2:
-        st.markdown("<hr style='border:1px solid #ddd'>", unsafe_allow_html=True)
         st.markdown("### <📝종합 평가>")
         st.markdown(f"<p style='font-size: 18px;'>{user_summary}</p>", unsafe_allow_html=True)
     
+    st.markdown("<hr style='border:1px solid #ddd'>", unsafe_allow_html=True)
     st.subheader("🚛 차량별 항목별 수치")
     expected_columns = ["운수사", "노선", "차량번호", "주행거리", "웜업", "공회전", "급가속", "연비", "달성율", "등급"]
     
