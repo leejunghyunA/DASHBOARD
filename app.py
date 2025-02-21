@@ -46,7 +46,10 @@ if df_final is not None and company_input and user_id_input and user_name_input:
     vehicle_columns = df_final.iloc[17, 39:50].tolist()
     vehicle_data = df_final.iloc[18:28, 39:50].copy()
     vehicle_data.columns = vehicle_columns  # AN18:AX28
-    route_stats = pd.concat([df_final.iloc[5:7, 39:41], df_final.iloc[5:7, 42:46]], axis=1)  # AN6:AT7
+
+    route_stats = pd.concat([df_final.iloc[5:7, 40:41], df_final.iloc[5:7, 42:46]], axis=1)  # AN6:AT7
+    route_stats.columns = ['달성율', '웜업', '공회전', '급가속', '급감속']
+
     monthly_comparison = df_final.iloc[10:12, 39:45]  # AN11:AT12
     calendar_data = df_final.iloc[6:16, 51:57]  # AZ7:AF16
     grade_trend = df_final.iloc[22:25, 51:57]  # AZ23:BB25
