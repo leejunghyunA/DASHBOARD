@@ -6,7 +6,9 @@ import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 
 # 한글 폰트 설정
-plt.rc('font', family='Malgun Gothic')  # Windows의 경우
+font_path = fm.findfont(fm.FontProperties(family='Malgun Gothic'))
+font_prop = fm.FontProperties(fname=font_path)
+plt.rc('font', family=font_prop.get_name())  # Windows의 경우
 plt.rc('axes', unicode_minus=False)
 import numpy as np
 
@@ -118,12 +120,7 @@ if df_final is not None and company_input and user_id_input and user_name_input:
         for index, value in enumerate([route_stats.iloc[0, i], route_stats.iloc[1, i]]):
             ax.text(index, value, f'{value:.1f}', ha='center', va='bottom')
         st.pyplot(fig)
-    fig, ax = plt.subplots()
-    route_stats = route_stats.apply(pd.to_numeric, errors='coerce').fillna(0)
-    ax.bar(labels, route_stats.iloc[0], label="노선 평균", alpha=0.5)
-    ax.bar(labels, route_stats.iloc[1], label="내 수치")
-    ax.legend()
-    st.pyplot(fig)
+
     
     st.subheader("📉 12월 vs 1월 비교")
     fig2, ax2 = plt.subplots()
