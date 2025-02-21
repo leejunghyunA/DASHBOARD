@@ -64,9 +64,11 @@ if st.button("조회하기"):
     calendar_data = df_final.iloc[6:16, 51:57]  # AZ7:AF16
     grade_trend = df_final.iloc[22:25, 51:57]  # AZ23:BB25
     
-    st.markdown("<hr style='border:5px solid yellow'>", unsafe_allow_html=True)
+    st.markdown("<hr style='border:3px solid yellow'>", unsafe_allow_html=True)
 
     col1, col2 = st.columns([1, 3])
+    st.markdown("<hr style='border:1px dashed #ccc'>", unsafe_allow_html=True)  
+
     with col1:
         if os.path.exists("프로필.png"):
             st.image("프로필.png", width=150)
@@ -77,7 +79,7 @@ if st.button("조회하기"):
                     <div style='text-align: center;'>
                     <b>{user_name_input}({user_id_input})</b><br>
                     소속: <b>{company_input}</b><br>
-                    <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'}; font-size: 24px; font-weight: bold;'>{user_grade}</span><br>
+                    <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'}; font-size: 30px; font-weight: bold;'>{user_grade}</span><br>
                     <small>이달의 등급</small>
                     </div>
                     """, unsafe_allow_html=True)    
@@ -103,14 +105,21 @@ if st.button("조회하기"):
     vehicle_data["급감속"] = vehicle_data["급감속"].astype(float).apply(lambda x: f"{x:.2f}")
     vehicle_data["연비"] = vehicle_data["연비"].astype(float).apply(lambda x: f"{x:.2f}")
     vehicle_data["달성율"] = vehicle_data["달성율"].astype(float).apply(lambda x: f"{x * 100:.0f}%")
+
     def highlight_grade(val):
         color = "green" if val in ["S", "A"] else "blue" if val in ["C", "D"] else "red"
         return f'color: {color}; font-weight: bold'
     
-    def apply_grade_styling(df):
-        return df.style.applymap(highlight_grade, subset=[col for col in df.columns if "등급" in col])
+    st.dataframe(vehicle_data.style.applymap(highlight_grade, subset=["등급"])\
+    .set_table_styles([
+        {'selector': 'th', 'props': [('font-weight', 'bold'), ('text-align', 'center')]},
+        {'selector': 'td', 'props': [('text-align', 'center')]}
+    ]), hide_index=True)
     
-    st.dataframe(vehicle_data.style.applymap(highlight_grade, subset=["등급"]), hide_index=True)
+    #def apply_grade_styling(df):
+    #    return df.style.applymap(highlight_grade, subset=[col for col in df.columns if "등급" in col])
+    
+    #st.dataframe(vehicle_data.style.applymap(highlight_grade, subset=["등급"]), hide_index=True)
     
     st.subheader("📊 노선 내 나의 수치")
 
