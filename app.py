@@ -131,10 +131,10 @@ if st.button("조회하기"):
     if ap11 in ['이상', '-']:
         evaluation_text = f"""
         <div>
-            ● 연비등급: {ba5}월 (<b>{ap12}</b>)등급  <br>
-            ● 목표달성율: {ba5}월 ({round(ao12 * 100, 0)}%) <br>  
-            ● 급가속: {ba5}월 ({round(as12, 2)})회/100km당 <br> 
-            <b><span style='background-color: yellow;'>● 급감속: {ba5}월 ({round(at12, 2)})회/100km당  </span></b><br>
+            ● 연비등급: {ba5}월 (<b>{ap12}</b>)등급 <br>
+            ● 목표달성율: {ba5}월 ({round(ao12 * 100, 0)}%) <br>
+            ● 급가속: {ba5}월 ({round(as12, 2)})회/100km당 <br>
+            <b><span style='background-color: yellow;'>● 급감속: {ba5}월 ({round(at12, 2)})회/100km당  </span></b> <br>
         </div>"""
     else:
         evaluation_text = f"""
@@ -144,7 +144,7 @@ if st.button("조회하기"):
             ● 급가속: {bc5}월 ({round(as11, 2)})회/100km당 -> {ba5}월 ({round(as12, 2)})회/100km당  <br>
             <b><span style='background-color: yellow;'>● 급감속: {bc5}월 ({round(at11, 2)})회/100km당 -> {ba5}월 ({round(at12, 2)})회/100km당  </span></b><br>
         </div>"""
-    st.markdown(evaluation_text)
+    st.markdown(evaluation_text, unsafe_allow_html=True)
     
     # 추가 조건에 따른 멘트 생성
     grade_target = "C" if ap12 in ["F", "D"] else "B" if ap12 == "C" else "A" if ap12 == "B" else "S"
