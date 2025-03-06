@@ -2,15 +2,22 @@ import streamlit as st
 import pandas as pd
 import os
 import requests
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
-
-# 한글 폰트 설정
-font_path = fm.findfont(fm.FontProperties(family='Malgun Gothic'))
-font_prop = fm.FontProperties(fname=font_path)
-plt.rc('font', family=font_prop.get_name())  # Windows의 경우
-plt.rc('axes', unicode_minus=False)
 import numpy as np
+
+import matplotlib as mpl 
+import matplotlib.pyplot as plt 
+import matplotlib.font_manager as fm  
+
+
+path = '/usr/share/fonts/truetype/nanum/NanumBarunGothic.ttf' 
+font_name = fm.FontProperties(fname=path, size=10).get_name()
+print(font_name)
+plt.rc('font', family=font_name)
+
+fm._rebuild()
+mpl.rcParams['axes.unicode_minus'] = False
 
 # 파일 다운로드 경로
 file_path = "./인천 개인별 대시보드.xlsx"
@@ -166,6 +173,16 @@ if st.button("조회하기"):
     st.subheader("📊 월별 등급 추이")
         # g4 폴더 내 AK6 이름의 PNG 파일 경로
     image_path = os.path.join("g4", f"{final_code}.png")
+
+        # 이미지 불러오기
+    if os.path.exists(image_path):
+        st.image(image_path, caption=f"{user_name_input}({user_id_input})님의 월별 등급 변화", use_container_width=True)
+    else:
+        st.warning(f"이미지 파일을 찾을 수 없습니다: {image_path}")
+
+    st.subheader("★전체파일")
+        # g4 폴더 내 AK6 이름의 PNG 파일 경로
+    image_path = os.path.join("g5", f"{company_input}/{user_name_input}({user_id_input}).png")
 
         # 이미지 불러오기
     if os.path.exists(image_path):
