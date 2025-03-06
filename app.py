@@ -190,14 +190,18 @@ if st.button("조회하기"):
     
 
     #파일 다운로드
-    file_path = "g6/15.삼환운수_운전성향분석표(25.02.01~25.02.28).xlsx"
+    st.subheader("📥 파일 다운로드")
+    file_list = [f for f in os.listdir("g6") if f.endswith(".xlsx")]
+    selected_file = st.selectbox("다운로드할 파일을 선택하세요", file_list)
 
-    with open(file_path, "rb") as file:
-        btn = st.download_button(
-            label="📥 운전성향분석표표 파일 다운로드",
-            data=file,
-            file_name="15.삼환운수_운전성향분석표(25.02.01~25.02.28).xlsx",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    if selected_file:
+        file_path = os.path.join("g6", selected_file)
+        with open(file_path, "rb") as file:
+            st.download_button(
+                label="📥 운전성향분석표표 파일 다운로드",
+                data=file,
+                file_name=selected_file,
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
 
 else:
