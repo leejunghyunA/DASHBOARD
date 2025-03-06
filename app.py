@@ -110,7 +110,7 @@ if st.button("조회하기"):
         <div>
             <b>{user_name_input}({user_id_input})</b><br>
             소속: <b>{company_input}</b><br>
-            <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'}; font-size: 45px; font-weight: bold;'>{user_grade}</span><br>
+            <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'}; font-size: 50px; font-weight: bold;'>{user_grade}</span><br>
             <small>이달의 등급</small>
         </div>""", unsafe_allow_html=True) 
 
@@ -119,8 +119,8 @@ if st.button("조회하기"):
 
     ap11 = df_final.iloc[10, 41]  # AP11
     ap12 = df_final.iloc[11, 41]  # AP12
-    ba5 = df_final.iloc[4, 53]  # BA5
-    bc5 = df_final.iloc[4, 55]  # BC5
+    ba5 = df_final.iloc[4, 52]  # BA5
+    bc5 = df_final.iloc[4, 54]  # BC5
     ao11 = df_final.iloc[10, 40]  # AO11
     ao12 = df_final.iloc[11, 40]  # AO12
     as11 = df_final.iloc[10, 44]  # AS11
@@ -130,18 +130,20 @@ if st.button("조회하기"):
 
     if ap11 in ['이상', '-']:
         evaluation_text = f"""
-        ● 연비등급: {ba5}월 (<b>{ap12}</b>)등급  <br>
-        ● 목표달성율: {ba5}월 ({round(ao12 * 100, 0)}%) <br>  
-        ● 급가속: {ba5}월 ({round(as12, 2)})회/100km당 <br> 
-        <b><span style='background-color: yellow;'>● 급감속: {ba5}월 ({round(at12, 2)})회/100km당  </span></b><br>
-        """
+        <div>
+            ● 연비등급: {ba5}월 (<b>{ap12}</b>)등급  <br>
+            ● 목표달성율: {ba5}월 ({round(ao12 * 100, 0)}%) <br>  
+            ● 급가속: {ba5}월 ({round(as12, 2)})회/100km당 <br> 
+            <b><span style='background-color: yellow;'>● 급감속: {ba5}월 ({round(at12, 2)})회/100km당  </span></b><br>
+        </div>"""
     else:
         evaluation_text = f"""
-        ● 연비등급: {bc5}월 (<b>{ap11}</b>)등급 -> {ba5}월 (<b>{ap12}</b>)등급 <br>  
-        ● 목표달성율: {bc5}월 ({round(ao11 * 100, 0)}%) -> {ba5}월 ({round(ao12 * 100, 0)}%)  <br>
-        ● 급가속: {bc5}월 ({round(as11, 2)})회/100km당 -> {ba5}월 ({round(as12, 2)})회/100km당  <br>
-        <b><span style='background-color: yellow;'>● 급감속: {bc5}월 ({round(at11, 2)})회/100km당 -> {ba5}월 ({round(at12, 2)})회/100km당  </span></b><br>
-        """
+        <div>
+            ● 연비등급: {bc5}월 (<b>{ap11}</b>)등급 -> {ba5}월 (<b>{ap12}</b>)등급 <br>  
+            ● 목표달성율: {bc5}월 ({round(ao11 * 100, 0)}%) -> {ba5}월 ({round(ao12 * 100, 0)}%)  <br>
+            ● 급가속: {bc5}월 ({round(as11, 2)})회/100km당 -> {ba5}월 ({round(as12, 2)})회/100km당  <br>
+            <b><span style='background-color: yellow;'>● 급감속: {bc5}월 ({round(at11, 2)})회/100km당 -> {ba5}월 ({round(at12, 2)})회/100km당  </span></b><br>
+        </div>"""
     st.markdown(evaluation_text)
     
     # 추가 조건에 따른 멘트 생성
