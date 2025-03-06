@@ -131,18 +131,22 @@ if st.button("조회하기"):
     if ap11 in ['이상', '-']:
         evaluation_text = f"""
         <div>
+        <p style='font-size: 15px;'>
             ● 연비등급: {ba5}월 (<b>{ap12}</b>)등급 <br>
             ● 목표달성율: {ba5}월 ({round(ao12 * 100, 0)}%) <br>
             ● 급가속: {ba5}월 ({round(as12, 2)})회/100km당 <br>
             <b><span style='background-color: yellow;'>● 급감속: {ba5}월 ({round(at12, 2)})회/100km당  </span></b> <br>
+        </p>
         </div>"""
     else:
         evaluation_text = f"""
         <div>
+        <p style='font-size: 15px;'>
             ● 연비등급: {bc5}월 (<b>{ap11}</b>)등급 -> {ba5}월 (<b>{ap12}</b>)등급 <br>  
             ● 목표달성율: {bc5}월 ({round(ao11 * 100, 0)}%) -> {ba5}월 ({round(ao12 * 100, 0)}%)  <br>
             ● 급가속: {bc5}월 ({round(as11, 2)})회/100km당 -> {ba5}월 ({round(as12, 2)})회/100km당  <br>
             <b><span style='background-color: yellow;'>● 급감속: {bc5}월 ({round(at11, 2)})회/100km당 -> {ba5}월 ({round(at12, 2)})회/100km당  </span></b><br>
+        </p>
         </div>"""
     st.markdown(evaluation_text, unsafe_allow_html=True)
     
@@ -153,7 +157,7 @@ if st.button("조회하기"):
     additional_text = f"""
     <br>
     <p style='font-size: 22px; font-style: italic;'>
-    {ba5+1}월에는, <b>급감속</b>을 줄여봅시다.<br>
+    <b>{ba5+1}</b>월에는, <b>급감속</b>을 줄여봅시다.<br>
     급감속은 <b>매탕 1회 미만!</b><br>
     이것만 개선해도 연비 5% 개선, 
     <span style='color: {grade_color}; font-weight: bold;'>{grade_target}등급</span>까지 도달 목표!!
