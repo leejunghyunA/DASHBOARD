@@ -81,25 +81,88 @@ if st.button("조회하기"):
     #""", unsafe_allow_html=True)
     #st.markdown("<hr style='border:1px dashed #ccc'>", unsafe_allow_html=True)
 
-    with col1:
+    #with col1:
+        #if os.path.exists("프로필.png"):
+            #st.image("프로필.png", width=150)
+        #else:
+            #st.image("https://via.placeholder.com/150", width=150)
+
+        #st.markdown(f"""
+        # <div style='text-align: center;'>
+        #     <b>{user_name_input}({user_id_input})</b><br>
+        #     소속: <b>{company_input}</b><br>
+        #     <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'}; font-size: 45px; font-weight: bold;'>{user_grade}</span><br>
+        #     <small>이달의 등급</small>
+        # </div>""", unsafe_allow_html=True)    
+        
+    #with col2:
+        #st.markdown("### <📝종합 평가>")
+        #st.markdown(f"<p style='font-size: 18px;'>{user_summary}</p>", unsafe_allow_html=True)
+
+    with col1 :
         if os.path.exists("프로필.png"):
             st.image("프로필.png", width=150)
         else:
             st.image("https://via.placeholder.com/150", width=150)
 
+    with  col2:
         st.markdown(f"""
         <div style='text-align: center;'>
             <b>{user_name_input}({user_id_input})</b><br>
             소속: <b>{company_input}</b><br>
             <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'}; font-size: 45px; font-weight: bold;'>{user_grade}</span><br>
             <small>이달의 등급</small>
-        </div>""", unsafe_allow_html=True)    
-        
-    with col2:
-        st.markdown("### <📝종합 평가>")
-        st.markdown(f"<p style='font-size: 18px;'>{user_summary}</p>", unsafe_allow_html=True)
+        </div>""", unsafe_allow_html=True) 
+
+    st.markdown("### <📝종합 평가>")
+    #st.markdown(f"<p style='font-size: 18px;'>{user_summary}</p>", unsafe_allow_html=True)
+
+    ap11 = df_final.iloc[10, 41]  # AP11
+    ap12 = df_final.iloc[11, 41]  # AP12
+    ba5 = df_final.iloc[4, 53]  # BA5
+    bc5 = df_final.iloc[4, 55]  # BC5
+    ao11 = df_final.iloc[10, 40]  # AO11
+    ao12 = df_final.iloc[11, 40]  # AO12
+    as11 = df_final.iloc[10, 44]  # AS11
+    as12 = df_final.iloc[11, 44]  # AS12
+    at11 = df_final.iloc[10, 45]  # AT11
+    at12 = df_final.iloc[11, 45]  # AT12
+
+    if ap11 in ['이상', '-']:
+        evaluation_text = f"""
+        ● 연비등급: {ba5}월 (<b>{ap12}</b>)등급  <br>
+        ● 목표달성율: {ba5}월 ({round(ao12 * 100, 0)}%) <br>  
+        ● 급가속: {ba5}월 ({round(as12, 2)})회/100km당 <br> 
+        <b><span style='background-color: yellow;'>● 급감속: {ba5}월 ({round(at12, 2)})회/100km당  </span></b><br>
+        """
+    else:
+        evaluation_text = f"""
+        ● 연비등급: {bc5}월 (<b>{ap11}</b>)등급 -> {ba5}월 (<b>{ap12}</b>)등급 <br>  
+        ● 목표달성율: {bc5}월 ({round(ao11 * 100, 0)}%) -> {ba5}월 ({round(ao12 * 100, 0)}%)  <br>
+        ● 급가속: {bc5}월 ({round(as11, 2)})회/100km당 -> {ba5}월 ({round(as12, 2)})회/100km당  <br>
+        <b><span style='background-color: yellow;'>● 급감속: {bc5}월 ({round(at11, 2)})회/100km당 -> {ba5}월 ({round(at12, 2)})회/100km당  </span></b><br>
+        """
+
+    # 추가 조건에 따른 멘트 생성
+    grade_target = "C" if ap12 in ["F", "D"] else "B" if ap12 == "C" else "A" if ap12 == "B" else "S"
+    grade_color = "green" if grade_target in ["S", "A"] else "blue" if grade_target in ["B", "C"] else "red"
+
+    additional_text = f"""
+    <p style='font-size: 22px; font-style: italic;'>
+    {ba5}월에는, <b>급감속</b>을 줄여봅시다.<br>
+    급감속은 <b>매탕 1회 미만!</b><br>
+    이것만 개선해도 연비 5% 개선, 
+    <span style='color: {grade_color}; font-weight: bold;'>{grade_target}등급</span>까지 도달 목표!!
+    </p>
+    """
+
+    st.markdown(additional_text, unsafe_allow_html=True) 
     
+
+    #구분선
     st.markdown("<hr style='border:1px solid #ddd'>", unsafe_allow_html=True)
+
+
     st.subheader("🚛 차량별 항목별 수치")
     expected_columns = ["운수사", "노선", "차량번호", "주행거리", "웜업", "공회전", "급가속", "연비", "달성율", "등급"]
     
