@@ -264,24 +264,24 @@ if st.button("조회하기"):
         st.warning(f"이미지 파일을 찾을 수 없습니다: {image_path}")
 
     grade_trend_html = f"""
-    <div style='display: flex; align-items: center; justify-content: center; gap: 10px;'>
-        <div style='background-color: #E0E0E0; padding: 20px; border-radius: 10px; text-align: center; width: 120px;'>
-            <div style='font-size: 16px; font-weight: bold;'>11월</div>
-            <div style='font-size: 24px; font-weight: bold;'>S</div>
-            <div style='font-size: 16px;'>111%</div>
+    <div style='display: flex; align-items: center; justify-content: center; gap: 20px;'>
+        <div style='background-color: #E0E0E0; padding: 30px; border-radius: 15px; text-align: center; width: 150px; box-shadow: 3px 3px 5px rgba(0,0,0,0.1);'>
+            <div style='font-size: 18px; font-weight: bold;'>11월</div>
+            <div style='font-size: 32px; font-weight: bold;'>S</div>
+            <div style='font-size: 18px;'>111%</div>
         </div>
-        <div style='background-color: #BDBDBD; padding: 20px; border-radius: 10px; text-align: center; width: 120px;'>
-            <div style='font-size: 16px; font-weight: bold;'>12월</div>
-            <div style='font-size: 24px; font-weight: bold;'>S</div>
-            <div style='font-size: 16px;'>110%</div>
+        <div style='background-color: #BDBDBD; padding: 30px; border-radius: 15px; text-align: center; width: 150px; box-shadow: 3px 3px 5px rgba(0,0,0,0.1);'>
+            <div style='font-size: 18px; font-weight: bold;'>12월</div>
+            <div style='font-size: 32px; font-weight: bold;'>S</div>
+            <div style='font-size: 18px;'>110%</div>
         </div>
-        <div style='background-color: #FFEB3B; padding: 20px; border-radius: 10px; text-align: center; width: 120px;'>
-            <div style='font-size: 16px; font-weight: bold;'>1월</div>
-            <div style='font-size: 24px; font-weight: bold; color: red;'>S</div>
-            <div style='font-size: 16px;'>116%</div>
+        <div style='background-color: #FFEB3B; padding: 30px; border-radius: 15px; text-align: center; width: 150px; box-shadow: 3px 3px 5px rgba(0,0,0,0.1);'>
+            <div style='font-size: 18px; font-weight: bold;'>1월</div>
+            <div style='font-size: 32px; font-weight: bold; color: red;'>S</div>
+            <div style='font-size: 18px;'>116%</div>
         </div>
     </div>
-    """
+"""
     st.markdown(grade_trend_html, unsafe_allow_html=True)
 
 
