@@ -199,10 +199,17 @@ if st.button("조회하기"):
         return f'color: {color}; font-weight: bold'
     
     st.dataframe(vehicle_data.style.applymap(highlight_grade, subset=["등급"])\
+    .applymap(lambda x: 'background-color: yellow' if x else '', subset=['급감속'])\
     .set_table_styles([
         {'selector': 'th', 'props': [('font-weight', 'bold'), ('text-align', 'center')]},
         {'selector': 'td', 'props': [('text-align', 'center')]}
     ]), hide_index=True)
+        
+    # st.dataframe(vehicle_data.style.applymap(highlight_grade, subset=["등급"])\
+    # .set_table_styles([
+    #     {'selector': 'th', 'props': [('font-weight', 'bold'), ('text-align', 'center')]},
+    #     {'selector': 'td', 'props': [('text-align', 'center')]}
+    # ]), hide_index=True)
     
     #def apply_grade_styling(df):
     #    return df.style.applymap(highlight_grade, subset=[col for col in df.columns if "등급" in col])
