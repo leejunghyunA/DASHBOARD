@@ -10,14 +10,12 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt 
 import matplotlib.font_manager as fm  
 
+# 한글 폰트 설정
+font_path = fm.findfont(fm.FontProperties(family='Malgun Gothic'))
+font_prop = fm.FontProperties(fname=font_path)
+plt.rc('font', family=font_prop.get_name())  # Windows의 경우
+plt.rc('axes', unicode_minus=False)
 
-path = '/usr/share/fonts/truetype/nanum/NanumBarunGothic.ttf' 
-font_name = fm.FontProperties(fname=path, size=10).get_name()
-print(font_name)
-plt.rc('font', family=font_name)
-
-fm._rebuild()
-mpl.rcParams['axes.unicode_minus'] = False
 
 # 파일 다운로드 경로
 file_path = "./인천 개인별 대시보드.xlsx"
