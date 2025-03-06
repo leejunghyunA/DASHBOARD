@@ -107,7 +107,7 @@ if st.button("조회하기"):
 
     with  col2:
         st.markdown(f"""
-        <div style='text-align: center;'>
+        <div>
             <b>{user_name_input}({user_id_input})</b><br>
             소속: <b>{company_input}</b><br>
             <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'}; font-size: 45px; font-weight: bold;'>{user_grade}</span><br>
@@ -142,7 +142,8 @@ if st.button("조회하기"):
         ● 급가속: {bc5}월 ({round(as11, 2)})회/100km당 -> {ba5}월 ({round(as12, 2)})회/100km당  <br>
         <b><span style='background-color: yellow;'>● 급감속: {bc5}월 ({round(at11, 2)})회/100km당 -> {ba5}월 ({round(at12, 2)})회/100km당  </span></b><br>
         """
-
+    st.markdown(evaluation_text)
+    
     # 추가 조건에 따른 멘트 생성
     grade_target = "C" if ap12 in ["F", "D"] else "B" if ap12 == "C" else "A" if ap12 == "B" else "S"
     grade_color = "green" if grade_target in ["S", "A"] else "blue" if grade_target in ["B", "C"] else "red"
