@@ -151,15 +151,22 @@ if st.button("조회하기"):
     grade_color = "green" if grade_target in ["S", "A"] else "blue" if grade_target in ["B", "C"] else "red"
 
     additional_text = f"""
+    <br>
     <p style='font-size: 22px; font-style: italic;'>
-    {ba5}월에는, <b>급감속</b>을 줄여봅시다.<br>
+    {ba5+1}월에는, <b>급감속</b>을 줄여봅시다.<br>
     급감속은 <b>매탕 1회 미만!</b><br>
     이것만 개선해도 연비 5% 개선, 
     <span style='color: {grade_color}; font-weight: bold;'>{grade_target}등급</span>까지 도달 목표!!
     </p>
     """
 
-    st.markdown(additional_text, unsafe_allow_html=True) 
+    #st.markdown(additional_text, unsafe_allow_html=True) 
+
+    st.markdown(f"""
+    <div style='background-color: rgba(211, 211, 211, 0.3); padding: 10px; border-radius: 5px;'>
+    {additional_text}
+    </div>
+    """, unsafe_allow_html=True)
     
 
     #구분선
