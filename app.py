@@ -201,7 +201,7 @@ if st.button("조회하기"):
     st.dataframe(vehicle_data.style.applymap(highlight_grade, subset=["등급"])\
     .applymap(lambda x: 'background-color: yellow' if x else '', subset=['급감속'])\
     .set_table_styles([
-        {'selector': 'th', 'props': [('font-weight', 'bold'), ('text-align', 'center')]},
+        {'selector': 'th', 'props': [('font-weight', 'bold'), ('color', 'black'), ('text-align', 'center')]},
         {'selector': 'td', 'props': [('text-align', 'center')]}
     ]), hide_index=True)
         
