@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import pandas as pd
 import os
 import requests
@@ -241,7 +242,7 @@ if st.button("조회하기"):
 
 
     
-    st.subheader("📅 나만의 등급 달력")
+    st.subheader(f"""📅 나만의 등급 달력{ap11}""")
         # g3 폴더 내 AK6 이름의 PNG 파일 경로
     image_path = os.path.join("g3", f"{final_code}.png")
 
@@ -261,6 +262,29 @@ if st.button("조회하기"):
         st.image(image_path, caption=f"{user_name_input}({user_id_input})님의 월별 등급 변화", use_container_width=True)
     else:
         st.warning(f"이미지 파일을 찾을 수 없습니다: {image_path}")
+
+    grade_trend_html = f"""
+    <div style='display: flex; align-items: center; justify-content: center; gap: 10px;'>
+        <div style='background-color: #E0E0E0; padding: 20px; border-radius: 10px; text-align: center; width: 120px;'>
+            <div style='font-size: 16px; font-weight: bold;'>11월</div>
+            <div style='font-size: 24px; font-weight: bold;'>S</div>
+            <div style='font-size: 16px;'>111%</div>
+        </div>
+        <div style='background-color: #BDBDBD; padding: 20px; border-radius: 10px; text-align: center; width: 120px;'>
+            <div style='font-size: 16px; font-weight: bold;'>12월</div>
+            <div style='font-size: 24px; font-weight: bold;'>S</div>
+            <div style='font-size: 16px;'>110%</div>
+        </div>
+        <div style='background-color: #FFEB3B; padding: 20px; border-radius: 10px; text-align: center; width: 120px;'>
+            <div style='font-size: 16px; font-weight: bold;'>1월</div>
+            <div style='font-size: 24px; font-weight: bold; color: red;'>S</div>
+            <div style='font-size: 16px;'>116%</div>
+        </div>
+    </div>
+    """
+    st.markdown(grade_trend_html, unsafe_allow_html=True)
+
+
 
     st.subheader("★전체파일")
         # g4 폴더 내 AK6 이름의 PNG 파일 경로
