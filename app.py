@@ -279,7 +279,7 @@ if st.button("조회하기"):
 
     #등급별 색깔 함수
     def get_grade_color(grade):
-        return green if grade in ["S","A"] else "blue" if grade in ["B", "C"] else "red"
+        return "green" if grade in ["S","A"] else "blue" if grade in ["B", "C"] else "red"
 
 
     grade_trend_html = f"""
