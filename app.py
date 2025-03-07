@@ -92,7 +92,7 @@ if st.button("조회하기"):
 
     with  col2:
         st.markdown(f"""
-        <div style='font-size: 24px; font-weight: bold;'>
+        <div style='background-color: rgba(211, 211, 211, 0.3); padding: 10px; border-radius: 5px; font-size: 24px; font-weight: bold;'>
             <b>{user_name_input}({user_id_input})</b><br>
             <span style='font-size: 22px;'>소속: <b>{company_input}</b></span><br>
             <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'};
