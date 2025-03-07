@@ -23,52 +23,43 @@ file_path = "./인천 개인별 대시보드.xlsx"
 file_url = "https://raw.githubusercontent.com/leejunghyunA/DASHBOARD/main/인천%20개인별%20대시보드.xlsx"
 
 # 파일이 없거나 손상된 경우 다운로드
-def download_excel():
-    if not os.path.exists(file_path) or os.path.getsize(file_path) == 0:
-        with st.spinner("데이터 파일 다운로드 중..."):
-            response = requests.get(file_url)
-            with open(file_path, "wb") as f:
-                f.write(response.content)
+if not os.path.exists(file_path) or os.path.getsize(file_path) == 0:
+    with st.spinner("데이터 파일 다운로드 중..."):
+        response = requests.get(file_url)
+        with open(file_path, "wb") as f:
+            f.write(response.content)
         st.success("파일 다운로드 완료!")
 
-download_excel()
-
-# 엑셀 파일 로드
-def load_excel():
+# 엑셀 파일 확인 및 로드
+def load_excel(file_path):
     try:
         xls = pd.ExcelFile(file_path)
-        return pd.read_excel(xls, sheet_name="최종(개인별)", header=None)
+        df_final = pd.read_excel(xls, sheet_name="최종(개인별)", header=None)
+        return df_final
     except Exception as e:
         st.error(f"엑셀 파일을 불러오는 중 오류 발생: {e}")
         return None
 
-df_final = load_excel()
-
+df_final = load_excel(file_path)
 
 # Streamlit UI 구성
 st.title("🚗 운전자별 대시보드")
 company_input = st.text_input("운수사를 입력하세요")
 user_id_input = st.text_input("운전자 ID를 입력하세요")
-st.markdown("""
-    <a href='https://driver-id-bht2vcfl3fnpgrmqqnedrq.streamlit.app/' target='_blank' 
-    style='display: inline-block; padding: 10px 20px; background-color: green; color: white; font-weight: bold; 
-    text-align: center; text-decoration: none; border-radius: 5px;'>ID 조회하기</a>
-""", unsafe_allow_html=True)
 user_name_input = st.text_input("운전자 이름을 입력하세요")
-
 
 if st.button("조회하기"):
     if df_final is not None and company_input and user_id_input and user_name_input:
-        df_final.iloc[5, 33] = company_input  # AH6 운수사
-        df_final.iloc[5, 34] = user_id_input  # AI6 운전자id
-        df_final.iloc[5, 35] = user_name_input  # AJ6 운전자명
+        df_final.iloc[5, 33] = company_input  # AH6
+        df_final.iloc[5, 34] = user_id_input  # AI6
+        df_final.iloc[5, 35] = user_name_input  # AJ6
 
     
-     # 데이터 가져오기 (데이터 정의)
-    final_code = df_final.iloc[5, 36] #AK6 운수사&운전자id&운전자명
-    user_grade = df_final.iloc[11, 33]  # AH12 이달의 등급
-    #user_summary = df_final.iloc[5, 4]  # AH16 종합평가
-    vehicle_columns = df_final.iloc[17, 39:50].tolist() #차량별 항목별 수치
+     # 데이터 가져오기
+    final_code = df_final.iloc[5, 36] #AK6
+    user_grade = df_final.iloc[11, 33]  # AH12
+    user_summary = df_final.iloc[5, 4]  # AH16,E6
+    vehicle_columns = df_final.iloc[17, 39:50].tolist()
     vehicle_data = df_final.iloc[18:28, 39:50].copy()
     vehicle_data.columns = vehicle_columns  # AN18:AX28
 
@@ -81,8 +72,33 @@ if st.button("조회하기"):
     
     st.markdown("<hr style='border:3px solid yellow'>", unsafe_allow_html=True)
 
-    # 출력 시작
     col1, col2 = st.columns([1, 3])
+    #st.markdown("""
+    #<div style='display: flex; align-items: center;'>
+    #    <div style='flex: 1; padding-right: 10px;'>
+    #        <hr style='border: none; border-right: 1px dashed #ccc; height: 100%;'>
+    #    </div>
+    #</div>
+    #""", unsafe_allow_html=True)
+    #st.markdown("<hr style='border:1px dashed #ccc'>", unsafe_allow_html=True)
+
+    #with col1:
+        #if os.path.exists("프로필.png"):
+            #st.image("프로필.png", width=150)
+        #else:
+            #st.image("https://via.placeholder.com/150", width=150)
+
+        #st.markdown(f"""
+        # <div style='text-align: center;'>
+        #     <b>{user_name_input}({user_id_input})</b><br>
+        #     소속: <b>{company_input}</b><br>
+        #     <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'}; font-size: 45px; font-weight: bold;'>{user_grade}</span><br>
+        #     <small>이달의 등급</small>
+        # </div>""", unsafe_allow_html=True)    
+        
+    #with col2:
+        #st.markdown("### <📝종합 평가>")
+        #st.markdown(f"<p style='font-size: 18px;'>{user_summary}</p>", unsafe_allow_html=True)
 
     with col1 :
         if os.path.exists("프로필.png"):
@@ -91,26 +107,13 @@ if st.button("조회하기"):
             st.image("https://via.placeholder.com/150", width=150)
 
     with  col2:
-        st.markdown("""
-        <div style='border: 2px solid #000; padding: 20px; border-radius: 10px; text-align: center; background-color: #f9f9f9;'>
-        """, unsafe_allow_html=True)
         st.markdown(f"""
-        <div style='font-size: 24px; font-weight: bold;'>
+        <div>
             <b>{user_name_input}({user_id_input})</b><br>
-            <span style='font-size: 22px;'>소속: <b>{company_input}</b></span><br>
-            <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'};
-            font-size: 60px; font-weight: bold;'>{user_grade}</span><br>
-            <small style='font-size: 20px;'>이달의 등급</small>
-        </div>
-        """, unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
-
-        # <div>
-        #     <b>{user_name_input}({user_id_input})</b><br>
-        #     소속: <b>{company_input}</b><br>
-        #     <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'}; font-size: 50px; font-weight: bold;'>{user_grade}</span><br>
-        #     <small>이달의 등급</small>
-        # </div>""", unsafe_allow_html=True) 
+            소속: <b>{company_input}</b><br>
+            <span style='color: {'green' if user_grade in ['S', 'A'] else 'blue' if user_grade in ['C', 'D'] else 'red'}; font-size: 50px; font-weight: bold;'>{user_grade}</span><br>
+            <small>이달의 등급</small>
+        </div>""", unsafe_allow_html=True) 
 
     st.markdown("### <📝종합 평가>")
     #st.markdown(f"<p style='font-size: 18px;'>{user_summary}</p>", unsafe_allow_html=True)
@@ -204,7 +207,12 @@ if st.button("조회하기"):
         {'selector': 'td', 'props': [('text-align', 'center')]}
     ]), hide_index=True)
         
-
+    # st.dataframe(vehicle_data.style.applymap(highlight_grade, subset=["등급"])\
+    # .set_table_styles([
+    #     {'selector': 'th', 'props': [('font-weight', 'bold'), ('text-align', 'center')]},
+    #     {'selector': 'td', 'props': [('text-align', 'center')]}
+    # ]), hide_index=True)
+    
     #def apply_grade_styling(df):
     #    return df.style.applymap(highlight_grade, subset=[col for col in df.columns if "등급" in col])
     
@@ -247,6 +255,14 @@ if st.button("조회하기"):
     
     
     st.subheader("📊 월별 등급 추이")
+        # g4 폴더 내 AK6 이름의 PNG 파일 경로
+    image_path = os.path.join("g4", f"{final_code}.png")
+
+        # 이미지 불러오기
+    if os.path.exists(image_path):
+        st.image(image_path, caption=f"{user_name_input}({user_id_input})님의 월별 등급 변화", use_container_width=True)
+    else:
+        st.warning(f"이미지 파일을 찾을 수 없습니다: {image_path}")
 
     #값정의
     paste_month1 = df_final.iloc[22, 51] # 전전월
@@ -290,6 +306,19 @@ if st.button("조회하기"):
     # 추가 간격 적용
     st.markdown("<div style='margin-bottom: 30px;'></div>", unsafe_allow_html=True)
 
+
+
+    st.subheader("★전체파일")
+        # g4 폴더 내 AK6 이름의 PNG 파일 경로
+    image_path = os.path.join("g5", f"{company_input}/{user_name_input}({user_id_input}).png")
+
+        # 이미지 불러오기
+    if os.path.exists(image_path):
+        st.image(image_path, caption=f"{user_name_input}({user_id_input})님의 월별 등급 변화", use_container_width=True)
+    else:
+        st.warning(f"이미지 파일을 찾을 수 없습니다: {image_path}")
+    
+
     #파일 다운로드
     st.subheader("📥 파일 다운로드")
     file_list = [f for f in os.listdir("g6") if f.endswith(".xlsx")]
@@ -299,7 +328,7 @@ if st.button("조회하기"):
         file_path = os.path.join("g6", selected_file)
         with open(file_path, "rb") as file:
             st.download_button(
-                label="📥 운전성향분석표 파일 다운로드",
+                label="📥 운전성향분석표표 파일 다운로드",
                 data=file,
                 file_name=selected_file,
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
