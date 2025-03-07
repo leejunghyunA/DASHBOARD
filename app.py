@@ -91,9 +91,6 @@ if st.button("조회하기"):
             st.image("https://via.placeholder.com/150", width=150)
 
     with  col2:
-        st.markdown("""
-        <div style='border: 2px solid #000; padding: 20px; border-radius: 10px; text-align: center; background-color: #f9f9f9;'>
-        """, unsafe_allow_html=True)
         st.markdown(f"""
         <div style='font-size: 24px; font-weight: bold;'>
             <b>{user_name_input}({user_id_input})</b><br>
