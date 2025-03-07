@@ -118,10 +118,11 @@ if st.button("조회하기"):
     st.markdown("### <📝종합 평가>")
     #st.markdown(f"<p style='font-size: 18px;'>{user_summary}</p>", unsafe_allow_html=True)
 
-    ap11 = df_final.iloc[10, 41]  # AP11
+    ap11 = df_final.iloc[10, 41]  # AP11(전달등급)
     ap12 = df_final.iloc[11, 41]  # AP12
-    ba5 = df_final.iloc[4, 52]  # BA5
-    bc5 = df_final.iloc[4, 54]  # BC5
+    ba5 = df_final.iloc[4, 52]  # BA5(이번달)
+    bc5 = df_final.iloc[4, 54]  # BC5(전달)
+    bd5 = df_final.iloc[4,55]  # BD5(다음달)
     ao11 = df_final.iloc[10, 40]  # AO11
     ao12 = df_final.iloc[11, 40]  # AO12
     as11 = df_final.iloc[10, 44]  # AS11
@@ -242,7 +243,7 @@ if st.button("조회하기"):
 
 
     
-    st.subheader(f"""📅 나만의 등급 달력{ap11}""")
+    st.subheader(f"""📅 나만의 등급 달력{ba5}""")
         # g3 폴더 내 AK6 이름의 PNG 파일 경로
     image_path = os.path.join("g3", f"{final_code}.png")
 
@@ -263,26 +264,41 @@ if st.button("조회하기"):
     else:
         st.warning(f"이미지 파일을 찾을 수 없습니다: {image_path}")
 
+
+    paste_month1 = df_final.iloc[22, 51] # 전전월
+    paste_month2 = df_final.iloc[23, 51] # 전월
+    this_month = df_final.iloc[24, 51] # 이번월
+    paste_grade1 = df_final.iloc[22, 52] # 전전월 등급
+    paste_grade2 = df_final.iloc[23, 52] # 전전월 등급
+    this_grade = df_final.iloc[24, 52] # 이번월 등급
+    paste_percent1 = f"{round(df_final.iloc[22, 53] * 100)}%" #전전월 달성율
+    paste_percent2 = f"{round(df_final.iloc[23, 53] * 100)}%" #전월 달성율
+    this_percent = f"{round(df_final.iloc[24, 53] * 100)}%" #이번달 달성율
+
+
     grade_trend_html = f"""
-    <div style='display: flex; align-items: center; justify-content: center; gap: 20px;'>
+    <div style='display: flex; align-items: center; justify-content: center; gap: 25px;'>
         <div style='background-color: #E0E0E0; padding: 30px; border-radius: 15px; text-align: center; width: 150px; box-shadow: 3px 3px 5px rgba(0,0,0,0.1);'>
-            <div style='font-size: 18px; font-weight: bold;'>11월</div>
-            <div style='font-size: 32px; font-weight: bold;'>S</div>
-            <div style='font-size: 18px;'>111%</div>
+            <div style='font-size: 18px; font-weight: bold;'>{paste_month1}월</div>
+            <div style='font-size: 32px; font-weight: bold;'>{paste_grade1}</div>
+            <div style='font-size: 18px;'>{paste_percent1}</div>
         </div>
         <div style='background-color: #BDBDBD; padding: 30px; border-radius: 15px; text-align: center; width: 150px; box-shadow: 3px 3px 5px rgba(0,0,0,0.1);'>
-            <div style='font-size: 18px; font-weight: bold;'>12월</div>
-            <div style='font-size: 32px; font-weight: bold;'>S</div>
-            <div style='font-size: 18px;'>110%</div>
+            <div style='font-size: 18px; font-weight: bold;'>{paste_month2}월</div>
+            <div style='font-size: 32px; font-weight: bold;'>{paste_grade2}</div>
+            <div style='font-size: 18px;'>{paste_percent2}</div>
         </div>
         <div style='background-color: #FFEB3B; padding: 30px; border-radius: 15px; text-align: center; width: 150px; box-shadow: 3px 3px 5px rgba(0,0,0,0.1);'>
-            <div style='font-size: 18px; font-weight: bold;'>1월</div>
-            <div style='font-size: 32px; font-weight: bold; color: red;'>S</div>
-            <div style='font-size: 18px;'>116%</div>
+            <div style='font-size: 18px; font-weight: bold;'>1{this_month}월</div>
+            <div style='font-size: 32px; font-weight: bold; color: red;'>{this_grade}</div>
+            <div style='font-size: 18px;'>{this_percent}</div>
         </div>
     </div>
 """
     st.markdown(grade_trend_html, unsafe_allow_html=True)
+
+    # 추가 간격 적용
+    st.markdown("<div style='margin-bottom: 30px;'></div>", unsafe_allow_html=True)
 
 
 
