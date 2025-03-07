@@ -243,7 +243,7 @@ if st.button("조회하기"):
 
 
     
-    st.subheader(f"""📅 나만의 등급 달력{ba5}""")
+    st.subheader(f"📅 나만의 등급 달력_{ba5}월")
         # g3 폴더 내 AK6 이름의 PNG 파일 경로
     image_path = os.path.join("g3", f"{final_code}.png")
 
@@ -264,7 +264,7 @@ if st.button("조회하기"):
     else:
         st.warning(f"이미지 파일을 찾을 수 없습니다: {image_path}")
 
-
+    #값정의
     paste_month1 = df_final.iloc[22, 51] # 전전월
     paste_month2 = df_final.iloc[23, 51] # 전월
     this_month = df_final.iloc[24, 51] # 이번월
@@ -275,22 +275,28 @@ if st.button("조회하기"):
     paste_percent2 = f"{round(df_final.iloc[23, 53] * 100)}%" #전월 달성율
     this_percent = f"{round(df_final.iloc[24, 53] * 100)}%" #이번달 달성율
 
+    grade_values = [paste_grade1, paste_grade2, this_grade]
+
+    #등급별 색깔 함수
+    def get_grade_color(grade):
+        return green if grade in ["S","A"] else "blue" if grade in ["B", "C"] else "red"
+
 
     grade_trend_html = f"""
     <div style='display: flex; align-items: center; justify-content: center; gap: 25px;'>
         <div style='background-color: #E0E0E0; padding: 30px; border-radius: 15px; text-align: center; width: 150px; box-shadow: 3px 3px 5px rgba(0,0,0,0.1);'>
             <div style='font-size: 18px; font-weight: bold;'>{paste_month1}월</div>
-            <div style='font-size: 32px; font-weight: bold;'>{paste_grade1}</div>
+            <div style='font-size: 32px; font-weight: bold; color: {get_grade_color(grade_values[0])};'>{grade_values[0]}</div>
             <div style='font-size: 18px;'>{paste_percent1}</div>
         </div>
         <div style='background-color: #BDBDBD; padding: 30px; border-radius: 15px; text-align: center; width: 150px; box-shadow: 3px 3px 5px rgba(0,0,0,0.1);'>
             <div style='font-size: 18px; font-weight: bold;'>{paste_month2}월</div>
-            <div style='font-size: 32px; font-weight: bold;'>{paste_grade2}</div>
+            <div style='font-size: 32px; font-weight: bold; color: {get_grade_color(grade_values[1])};'>{grade_values[1]}</div>
             <div style='font-size: 18px;'>{paste_percent2}</div>
         </div>
         <div style='background-color: #FFEB3B; padding: 30px; border-radius: 15px; text-align: center; width: 150px; box-shadow: 3px 3px 5px rgba(0,0,0,0.1);'>
             <div style='font-size: 18px; font-weight: bold;'>1{this_month}월</div>
-            <div style='font-size: 32px; font-weight: bold; color: red;'>{this_grade}</div>
+            <div style='font-size: 32px; font-weight: bold; color: {get_grade_color(grade_values[2])};'>{grade_values[2]}</div>
             <div style='font-size: 18px;'>{this_percent}</div>
         </div>
     </div>
